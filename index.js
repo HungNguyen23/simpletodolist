@@ -6,6 +6,15 @@ const clearBtn = document.getElementById("clear-btn")
 let myList = []
 const myListLocal = JSON.parse(localStorage.getItem("myList"))
 
+const timeDisplay = document.getElementById("time-display")
+const startBtn = document.getElementById("start-btn")
+const stopBtn = document.getElementById("stop-btn")
+const resetBtn = document.getElementById("reset-btn")
+
+let completedCount = 0
+let sec = 1500
+let timer = null
+
 if(myListLocal){
     myList = myListLocal
     render()
@@ -48,6 +57,44 @@ function render() {
 function saveList() {
     localStorage.setItem("myList", JSON.stringify(myList))
 }
+
+
+function convert() {
+    let minutes = Math.floor(sec / 60)
+    let leftover = sec % 60
+    let paddedMinutes = String(minutes).padStart(2,"0")
+    let paddedSecond = String(leftover).padStart(2,"0")
+
+    timeDisplay.textContent = paddedMinutes + ":" + paddedSecond
+
+}
+
+startBtn.addEventListener("click", function(){
+    if (timer === null){
+        timer = setInterval(function(){
+            sec--
+            convert()
+            if (sec === 0){
+                completedCount++
+                clearInterval(timer) //stop the count
+                timer = null
+            }
+        }, 1000)
+    
+    }
+})
+stopBtn.addEventListener("click", function(){
+   clearInterval(timer)
+   timer = null
+})
+resetBtn.addEventListener("click", function(){
+    clearInterval(timer)
+    timer = null
+    sec = 1500
+    convert()
+})
+convert()
+render()
 
 
 

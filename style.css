@@ -5,4 +5,12 @@ body {
     width: 300px;
     margin-left: auto;
     margin-right: auto;
+    list-style: none;
+    padding-left: 0;
+}
+li {
+    margin-top: 10px;
+}
+#pomodoro-timer {
+    margin-top: 50px;
 }
